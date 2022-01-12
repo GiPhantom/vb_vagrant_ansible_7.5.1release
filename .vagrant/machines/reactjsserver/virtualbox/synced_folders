@@ -1,0 +1,1 @@
+{"virtualbox":{"/var/www/releases/local":{"create":true,"guestpath":"/var/www/releases/local","hostpath":"/home/fantom/vb_vagrant_ansible_7.5.1","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/home/fantom/vb_vagrant_ansible_7.5.1","disabled":false,"__vagrantfile":true}}}

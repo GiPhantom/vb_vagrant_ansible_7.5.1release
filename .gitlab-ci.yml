@@ -1,0 +1,82 @@
+image: node:14.15.0-stretch
+stages:
+  - build
+    #- start
+    #- test
+    #- stage dev
+  - deploy
+
+variables:
+  docker_html_path: "/var/www"
+  env: prod
+  deploy_subfolder: html
+    
+
+install_dependencies:
+        #image: node:14.15.0-stretch  
+  stage: build
+  script:
+    - yarn install
+      #- CI=true yarn test  
+    - yarn build
+      #- mv build build_$env  
+  artifacts:
+    paths:
+      - node_modules
+      - build  
+  cache:
+    key:
+      files:
+        - yarn.lock
+    paths:
+       - node_modules
+  #variables:
+    #REACT_APP_WEBSITE_PREFIX: "[branch=$CI_COMMIT_BRANCH] "     
+#       - build
+
+         #run_start:
+         #stage: start
+         #script: yarn start
+       #run_tests:
+        #stage: test
+        #script:
+        #- yarn start      
+        #- CI=true yarn test
+        #run_linter:
+        #stage: test      #
+        #script: yarn run eslint src/**.js
+        #deploy website:
+        #stage: stage dev
+        #script:
+        #- mkdir /var/www
+        #- mkdir /var/www/html
+      #- cp -rf ./html/* /var/www/html
+      #- echo 'running ./build.sh'
+#   when: manual
+#tags:
+#- shell
+        #only:
+        #refs:
+        #- tags
+        #- master
+        #- /^release.*$/
+deploy dev:
+  stage: deploy
+  variables:
+    REACT_APP_WEBSITE_PREFIX: "[branch=$CI_COMMIT_BRANCH] " 
+
+  script:
+          #- yarn install
+          #- CI=true yarn test
+    - pwd
+    - ls -l /var
+    - ls -l /www  
+      ## - ls -R  
+    - whoami
+      #- /usr/bin/id -un  
+      #- ls -l /var/www/     
+    - cp -r build /www/react-app/$CI_COMMIT_SHA
+      #- cp -Pv /www/html /www/react-app/$CI_COMMIT_SHA/prev-version
+    - ln -fsnv /var/www/react-app/$CI_COMMIT_SHA /www/html   
+      
+
